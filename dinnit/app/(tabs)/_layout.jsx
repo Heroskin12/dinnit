@@ -1,12 +1,12 @@
-import { View, Text } from 'react-native'
-import React from 'react'
+import React from "react";
+import TabBar from "../../components/TabBar";
 
 const TabsLayout = () => {
   return (
-    <View>
-      <Text>TabsLayout</Text>
-    </View>
-  )
-}
+    <>
+      <TabBar></TabBar>
+    </>
+  );
+};
 
-export default TabsLayout
+export default TabsLayout;
