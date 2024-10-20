@@ -30,7 +30,7 @@ const Header = ({ title, showBackButton = true}) => {
       <Text style={{ color: '#FF4C4C' }} className="text-4xl pt-4 font-satisfy font-bold">{title}</Text>
           <Image
         style={styles.tinyLogo}
-        source={require('C:\\Users\\samir\\dinnit\\dinnit\\dinnit\\assets\\test_images\\stockMan.jpg')}
+        source={require('..\\assets\\test_images\\stockMan.jpg')}
       />
     </View>
   );
