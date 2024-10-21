@@ -1,39 +1,45 @@
-import { View, Text, TouchableOpacity, Image, StyleSheet } from "react-native";
-import React from "react";
-import { useNavigation } from "expo-router";
+import { View, Text, TouchableOpacity, Image, StyleSheet, Platform } from "react-native";
+import { Satisfy_400Regular, useFonts } from "@expo-google-fonts/satisfy";
+import React, { useEffect } from "react";
+import { useNavigation, SplashScreen } from "expo-router";
 import { Ionicons } from "@expo/vector-icons"; // Example icon library
 
-const sz = 45;
-
-const styles = StyleSheet.create({
-  container: {
-    paddingTop:50,
-  },
-  tinyLogo: {
-    width: sz,
-    height: sz,
-    borderRadius: sz/2
-  },
-});
-
-
+SplashScreen.preventAutoHideAsync();
 const Header = ({ title, showBackButton = true}) => {
-  const navigation = useNavigation();
+    const navigation = useNavigation();
 
-  return (
-    <View className="flex-row items-center justify-between px-4 py-3 bg-slate-600" style={{ paddingTop: 62 }}>
-      {showBackButton && (
-        <TouchableOpacity onPress={() => navigation.goBack()}>
-          <Ionicons name="arrow-back" size={24} color="#FF4C4C" />
-        </TouchableOpacity>
-      )}
-      <Text style={{ color: '#FF4C4C' }} className="text-4xl pt-4 font-satisfy font-bold">{title}</Text>
-          <Image
-        style={styles.tinyLogo}
-        source={require('..\\assets\\test_images\\stockMan.jpg')}
-      />
-    </View>
-  );
+    const [fontsLoaded, error] = useFonts({
+        Satisfy_400Regular
+    });
+
+    console.log(fontsLoaded);
+
+    useEffect(() => {
+        if(error) throw error;
+        if(fontsLoaded) SplashScreen.hideAsync();
+    }, [fontsLoaded, error])
+
+    if(!fontsLoaded && !error){
+        SplashScreen.preventAutoHideAsync();
+        return null;
+    }
+
+    const iosSpecificClass = Platform.OS === 'ios' ? 'pt-4' : 'pt-2'; 
+
+    return (
+        <View className="flex-row items-center justify-between py-3 bg-secondary p-header pb-4 px-7">
+        {showBackButton && (
+            <TouchableOpacity onPress={() => navigation.goBack()}>
+            <Ionicons name="arrow-back" size={24} color="#FF4C4C" />
+            </TouchableOpacity>
+        )}
+        <Text className={`font-satisfy text-3xl text-primary ${iosSpecificClass}`}>{title}</Text>
+            <Image
+            className="w-profilepic h-profilepic rounded-full"
+            source={require('..\\assets\\test_images\\stockMan.jpg')}
+        />
+        </View>
+    );
 };
 
 export default Header;
